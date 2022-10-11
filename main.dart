@@ -1,111 +1,144 @@
+
+
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-class Todo{
-  bool isDone = false;
-  String title;
-
-  Todo(this.title);
-}
-
 class MyApp extends StatelessWidget{
 
-  Widget build(BuildContext context){
+  Widget build (BuildContext context){
     return MaterialApp(
-      title: '할 일 관리',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: TodoListPage(),
+      debugShowCheckedModeBanner: false,
+      title: 'BBANTO',
+      home: Grade(),
     );
   }
 }
 
-class TodoListPage extends StatefulWidget{
-
-  _TodoListPageState createState() => _TodoListPageState();
-}
-
-class _TodoListPageState extends State<TodoListPage>{
-
-  final _items = <Todo>[];
-
-  var _todoControoller = TextEditingController();
-
-  void dispose(){
-    _todoControoller.dispose();
-    super.dispose();
-  }
-
-  Widget _buildItemWidget(Todo todo){
-    return ListTile(
-      onTap: () => _toggleTodo(todo),
-      title: Text(
-        todo.title,
-        style: todo.isDone
-            ?TextStyle(
-          decoration: TextDecoration.lineThrough,
-          fontStyle: FontStyle.italic,
-        )
-            :null,
-      ),
-      trailing: IconButton(
-        icon: Icon(Icons.delete_forever),
-        onPressed: () => _deleteTodo(todo),
-      ),
-    );
-  }
-
-  void _addTodo(Todo todo){
-    setState(() {
-      _items.add(todo);
-      _todoControoller.text = '';
-    });
-  }
-
-  void _deleteTodo(Todo todo){
-    setState(() {
-      _items.remove(todo);
-    });
-  }
-
-  void _toggleTodo(Todo todo){
-    setState(() {
-      todo.isDone = !todo.isDone;
-    });
-  }
+class Grade extends StatelessWidget{
 
   Widget build(BuildContext context){
     return Scaffold(
+      backgroundColor: Colors.amber[800],
       appBar: AppBar(
-        title: Text('남은 할 일'),
+        title: Text('BBANTO'),
+        backgroundColor: Colors.amber[700],
+        centerTitle: true,
+        elevation: 0.0,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child:Column(
+        padding: EdgeInsets.fromLTRB(30.0, 40.0, 0.0, 0.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Center(
+              child: CircleAvatar(
+                backgroundImage: AssetImage('asset/플러터 기본 트리 구조.PNG'),
+                radius: 60.0,
+              ),
+            ),
+            Divider(
+              height: 60.0,
+              color: Colors.grey[850],
+              thickness: 0.5,
+              endIndent: 30.0,
+            ),
+            Text('NAME',
+            style: TextStyle(
+              color: Colors.white,
+              letterSpacing: 2.0,
+            ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+
+            Text('BBANTO',
+            style:TextStyle(
+              color: Colors.white,
+              letterSpacing: 2.0,
+              fontSize: 28.0,
+              fontWeight: FontWeight.bold,
+            ),
+            ),
+            SizedBox(
+              height: 30.0,
+            ),
+
+            Text('BBANTO POWER LEVEL',
+              style: TextStyle(
+                color: Colors.white,
+                letterSpacing: 2.0,
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+
+            Text('14',
+              style:TextStyle(
+                color: Colors.white,
+                letterSpacing: 2.0,
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 30.0,
+            ),
             Row(
               children: <Widget>[
-                Expanded(
-                  child: TextField(
-                    controller:_todoControoller,
-                  ),
+                Icon(Icons.check_circle_outline),
+                SizedBox(
+                  width: 10.0,
                 ),
-                ElevatedButton(
-                  child: Text('추가'),
-                  onPressed: () => _addTodo(Todo(_todoControoller.text)),
+                Text('using lightsaber',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  letterSpacing: 1.0,
+                ),
                 ),
               ],
             ),
-            Expanded(
-              child: ListView(
-                children: _items.map((todo) => _buildItemWidget(todo)).toList(),
+            Row(
+              children: <Widget>[
+                Icon(Icons.check_circle_outline),
+                SizedBox(
+                  width: 10.0,
+                ),
+                Text('face hero tattoo',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    letterSpacing: 1.0,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Icon(Icons.check_circle_outline),
+                SizedBox(
+                  width: 10.0,
+                ),
+                Text('fire flames',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    letterSpacing: 1.0,
+                  ),
+                ),
+              ],
+            ),
+            Center(
+              child: CircleAvatar(
+                backgroundImage: AssetImage('asset/dd.PNG'),
+                radius: 40.0,
+                backgroundColor: Colors.amber[800],
               ),
             ),
           ],
         ),
       ),
+
     );
   }
 }
