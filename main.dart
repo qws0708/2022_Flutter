@@ -1,144 +1,106 @@
-
-
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget{
 
-  Widget build (BuildContext context){
+  Widget build(BuildContext context){
+
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'BBANTO',
-      home: Grade(),
+      title: 'AppBar',
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
+      home: MyPage(),
     );
   }
 }
 
-class Grade extends StatelessWidget{
+class MyPage extends StatelessWidget{
 
   Widget build(BuildContext context){
+
     return Scaffold(
-      backgroundColor: Colors.amber[800],
       appBar: AppBar(
-        title: Text('BBANTO'),
-        backgroundColor: Colors.amber[700],
+        title: Text('AppBar icon menu'),
         centerTitle: true,
         elevation: 0.0,
+        actions: <Widget>[//복수의 아이콘 버튼 등을 오른쪽에 배치할 때 사용
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              print('shopping cart button is clicked');
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              print('search button is clicked');
+            },
+          ),
+        ],
       ),
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(30.0, 40.0, 0.0, 0.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      drawer: Drawer( //햄버거 버튼
+        child: ListView(
+          padding: EdgeInsets.zero,
           children: <Widget>[
-            Center(
-              child: CircleAvatar(
-                backgroundImage: AssetImage('asset/플러터 기본 트리 구조.PNG'),
-                radius: 60.0,
+            UserAccountsDrawerHeader(  //Drawer의 윗부분
+              currentAccountPicture: CircleAvatar( //죄측 상단에 1개의 이미지 생성
+                backgroundImage: AssetImage('asset/11.PNG'),
+                backgroundColor: Colors.white,
               ),
-            ),
-            Divider(
-              height: 60.0,
-              color: Colors.grey[850],
-              thickness: 0.5,
-              endIndent: 30.0,
-            ),
-            Text('NAME',
-            style: TextStyle(
-              color: Colors.white,
-              letterSpacing: 2.0,
-            ),
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-
-            Text('BBANTO',
-            style:TextStyle(
-              color: Colors.white,
-              letterSpacing: 2.0,
-              fontSize: 28.0,
-              fontWeight: FontWeight.bold,
-            ),
-            ),
-            SizedBox(
-              height: 30.0,
-            ),
-
-            Text('BBANTO POWER LEVEL',
-              style: TextStyle(
-                color: Colors.white,
-                letterSpacing: 2.0,
-              ),
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-
-            Text('14',
-              style:TextStyle(
-                color: Colors.white,
-                letterSpacing: 2.0,
-                fontSize: 28.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(
-              height: 30.0,
-            ),
-            Row(
-              children: <Widget>[
-                Icon(Icons.check_circle_outline),
-                SizedBox(
-                  width: 10.0,
-                ),
-                Text('using lightsaber',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  letterSpacing: 1.0,
-                ),
+              otherAccountsPictures: <Widget>[ // 우측 상단에 여러개의 이미지 생성 가능
+                CircleAvatar(
+                  backgroundImage: AssetImage('asset/22.PNG'),
+                  backgroundColor: Colors.white,
                 ),
               ],
-            ),
-            Row(
-              children: <Widget>[
-                Icon(Icons.check_circle_outline),
-                SizedBox(
-                  width: 10.0,
+              accountName: Text('BBANTO'),  //UserAccountsDrawerHeader을 ctrl누르고 클릭하면 requred라고 나오는데 이것은 무조건 필요한 속성임
+              accountEmail: Text('BBANTO@bbanto.com'), //그 속성이 accountName이랑 accountEmail이라고 나옴 -> 확인해 볼 것.
+              onDetailsPressed: (){
+                print('arrow is clicked');
+              },
+              decoration: BoxDecoration(
+                color: Colors.red[200],
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(40.0),
+                  bottomRight: Radius.circular(40.0),
                 ),
-                Text('face hero tattoo',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    letterSpacing: 1.0,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Icon(Icons.check_circle_outline),
-                SizedBox(
-                  width: 10.0,
-                ),
-                Text('fire flames',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    letterSpacing: 1.0,
-                  ),
-                ),
-              ],
-            ),
-            Center(
-              child: CircleAvatar(
-                backgroundImage: AssetImage('asset/dd.PNG'),
-                radius: 40.0,
-                backgroundColor: Colors.amber[800],
               ),
+            ),
+            ListTile(
+              leading: Icon(Icons.home, //아이콘이나 이미지를 좌측 끝에 배치
+                color: Colors.grey[850],
+              ),
+              title: Text('home'),
+              onTap: (){
+                print('Home is Clicked');
+              },
+               trailing: Icon(Icons.add), //아이콘이나 이미지를 우측 끝에 배치
+            ),
+            ListTile(
+              leading: Icon(Icons.settings, //아이콘이나 이미지를 좌측 끝에 배치
+                color: Colors.grey[850],
+              ),
+              title: Text('Settings'),
+              onTap: (){
+                print('Settings is Clicked');
+              },
+               trailing: Icon(Icons.add), //아이콘이나 이미지를 우측 끝에 배치
+            ),
+            ListTile(
+              leading: Icon(Icons.question_answer, //아이콘이나 이미지를 좌측 끝에 배치
+                color: Colors.grey[850],
+              ),
+              title: Text('Q&A'),
+              onTap: (){
+                print('Q&A is Clicked');
+              },
+               trailing: Icon(Icons.add), //아이콘이나 이미지를 우측 끝에 배치
             ),
           ],
         ),
       ),
-
     );
   }
 }
