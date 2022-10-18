@@ -1,111 +1,95 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main()=>runApp(MyApp());
 
-class Todo{
-  bool isDone = false;
-  String title;
+final items=List.generate(100,(i)=>i).toList();
 
-  Todo(this.title);
-}
+class MyApp extends StatelessWidget {
 
-class MyApp extends StatelessWidget{
-
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return MaterialApp(
-      title: '할 일 관리',
+      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: TodoListPage(),
+      home: MyHomePage(),
+
     );
   }
 }
+enum Gender {MAN , WOMAN}
 
-class TodoListPage extends StatefulWidget{
+class MyHomePage extends StatefulWidget{
 
-  _TodoListPageState createState() => _TodoListPageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _TodoListPageState extends State<TodoListPage>{
+class _MyHomePageState extends State<MyHomePage>{
+   Gender _gender = Gender.MAN;
 
-  final _items = <Todo>[];
-
-  var _todoControoller = TextEditingController();
-
-  void dispose(){
-    _todoControoller.dispose();
-    super.dispose();
-  }
-
-  Widget _buildItemWidget(Todo todo){
-    return ListTile(
-      onTap: () => _toggleTodo(todo),
-      title: Text(
-        todo.title,
-        style: todo.isDone
-          ?TextStyle(
-          decoration: TextDecoration.lineThrough,
-          fontStyle: FontStyle.italic,
-        )
-            :null,
-      ),
-      trailing: IconButton(
-        icon: Icon(Icons.delete_forever),
-        onPressed: () => _deleteTodo(todo),
-      ),
-    );
-  }
-
-  void _addTodo(Todo todo){
-    setState(() {
-      _items.add(todo);
-      _todoControoller.text = '';
-    });
-  }
-
-  void _deleteTodo(Todo todo){
-    setState(() {
-      _items.remove(todo);
-    });
-  }
-
-  void _toggleTodo(Todo todo){
-    setState(() {
-      todo.isDone = !todo.isDone;
-    });
-  }
-
-  Widget build(BuildContext context){
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('남은 할 일'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child:Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                    child: TextField(
-                      controller:_todoControoller,
-                    ),
-                ),
-                ElevatedButton(
-                  child: Text('추가'),
-                  onPressed: () => _addTodo(Todo(_todoControoller.text)),
-                ),
-              ],
-            ),
-            Expanded(
-              child: ListView(
-                children: _items.map((todo) => _buildItemWidget(todo)).toList(),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+   Widget build(BuildContext context){
+     return Scaffold(
+       appBar: AppBar(
+         title: Text('Radio / RadioListTile'),
+       ),
+       body: Padding(
+         padding: const EdgeInsets.all(8.0),
+         child: Center(
+           child: Column(
+             mainAxisAlignment: MainAxisAlignment.center,
+             crossAxisAlignment: CrossAxisAlignment.center,
+             children: <Widget>[
+               ListTile(
+                 title: Text('남자'),
+                 leading: Radio(
+                   value: Gender.MAN,
+                   groupValue: _gender,
+                   onChanged: (value){
+                     setState(() {
+                       _gender = value;
+                     });
+                   },
+                 ),
+               ),
+               ListTile(
+                 title: Text('여자'),
+                 leading: Radio(
+                   value: Gender.WOMAN,
+                   groupValue: _gender,
+                   onChanged: (value){
+                     setState(() {
+                       _gender = value;
+                     });
+                   },
+                 ),
+               ),
+               SizedBox(
+                 height: 40,
+               ),
+               RadioListTile(
+                 title: Text('남자'),
+                   value: Gender.MAN,
+                   groupValue: _gender,
+                   onChanged: (value){
+                     setState(() {
+                       _gender = value;
+                     });
+                   },
+               ),
+               RadioListTile(
+                 title: Text('여자'),
+                 value: Gender.WOMAN,
+                 groupValue: _gender,
+                 onChanged: (value){
+                   setState(() {
+                     _gender = value;
+                   });
+                 },
+               ),
+             ],
+           ),
+         ),
+       ),
+     );
+   }
 }
