@@ -12,7 +12,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.deepPurple,
+        textTheme: TextTheme(
+          bodyText2: TextStyle(
+            fontSize: 30,
+            color: Colors.white
+          )
+        )
 
       ),
       home: MyPage(),
