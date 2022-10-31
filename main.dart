@@ -1,156 +1,140 @@
 import 'package:flutter/material.dart';
-import 'package:chef11/Dice.dart';
+import 'login_app/login.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Dice game',
+    return MaterialApp(
+      title: 'Firebase login app',
       home: LogIn(),
     );
   }
 }
 
-class LogIn extends StatefulWidget {
-  const LogIn({super.key});
-
-  @override
-  State<LogIn> createState() => _LogInState();
-}
-
-class _LogInState extends State<LogIn> {
-  TextEditingController controller =
-      TextEditingController(); //TextField의 값을 불러옴
-  TextEditingController controller2 = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Log in'),
-        backgroundColor: Colors.redAccent,
-        centerTitle: true,
-        leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.search), onPressed: () {})
-        ],
-      ),
-      body: Builder(
-        builder:(context) => SingleChildScrollView(
-            // 키보드가 밑에서 밀고 올라오면서 스크린 영역을 차지할 때 그 영역만큼 스크린을 스크롤 할 수 있도록 도와주는 위젯
-            child: Column(
-              children: [
-                const Padding(padding: EdgeInsets.only(top: 50)),
-                const Center(
-                  child: Image(
-                    image: AssetImage('image/chef.gif'),
-                    width: 170.0,
-                    height: 190.0,
-                  ),
-                ),
-                //text 필드로 어떤 정보들을 입력받는 화면을 구성
-                Form(
-                  child: Theme(
-                    data: ThemeData(
-                        primaryColor: Colors.teal,
-                        inputDecorationTheme: const InputDecorationTheme(
-                            labelStyle:
-                            TextStyle(color: Colors.teal, fontSize: 15.0))),
-                    child: Container(
-                      padding: EdgeInsets.all(40.0),
-                      child: Column(
-                        children: [
-                          TextField(
-                            controller: controller,
-                            //TextEditingController의 변수에 값을 불러옴
-                            decoration: const InputDecoration(labelText: 'Enter "dice"'),
-                            keyboardType: TextInputType.emailAddress,
-                          ),
-                          TextField(
-                            controller: controller2,
-                            decoration:
-                            const InputDecoration(labelText: 'Enter Password'),
-                            keyboardType: TextInputType.text,
-                            obscureText: true, //비밀번호 입력시 *로 가려줌
-                          ),
-                          const SizedBox(height: 40.0),
-                          ButtonTheme(
-                            minWidth: 100.0,
-                            height: 50.0,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.orangeAccent),
-                              child: const Icon(
-                                Icons.arrow_forward,
-                                color: Colors.white,
-                                size: 35.0,
-                              ),
-                              onPressed: () {
-                                if (controller.text == 'dice' &&
-                                    controller2.text == '1234') {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (BuildContext) => Dice()));
-                                }else if(controller.text == 'dice' &&
-                                    controller2.text != '1234'){
-                                  showSnackBar2(context);
-                                }else if(controller.text != 'dice' &&
-                                    controller2.text == '1234'){
-                                  showSnackBar3(context);
-                                }else{
-                                  showSnackBar(context);
-                                }
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-      ),
-    );
-  }
-}
-
-void showSnackBar(BuildContext context){
-
-  ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(content: Text('로그인 정보를 다시 확인하세요',
-    textAlign: TextAlign.center,),
-      duration: Duration(seconds: 2),
-      backgroundColor: Colors.blue,
-    )
-  );
-}
-
-void showSnackBar2(BuildContext context){
-
-  ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('비밀번호가 일치하지 않습니다',
-        textAlign: TextAlign.center,),
-        duration: Duration(seconds: 2),
-        backgroundColor: Colors.blue,
-      )
-  );
-}
-
-void showSnackBar3(BuildContext context){
-
-  ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('dice의 철자를 확인하세요',
-        textAlign: TextAlign.center,),
-        duration: Duration(seconds: 2),
-        backgroundColor: Colors.blue,
-      )
-  );
-}
+//
+// class LogIn extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         backgroundColor: Colors.blue,
+//         title: const Text(
+//           'Sign In',
+//           style: TextStyle(color: Colors.white),
+//         ),
+//         centerTitle: true,
+//         elevation: 0.2,
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: <Widget>[
+//             ButtonTheme(
+//               height: 50.0,
+//               child: ElevatedButton(
+//                 child: Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                   //spaceEvenly 위제 내의 그림,글 등을 같은 간격으로 배치
+//                   children: <Widget>[
+//                     Image.asset('images/glogo.png'),
+//                     Text(
+//                       'Login with Google',
+//                       style: TextStyle(color: Colors.black87, fontSize: 15.0),
+//                     ),
+//                     Opacity(
+//                       //투명도 결정
+//                       opacity: 0.0,
+//                       child: Image.asset('images/glogo.png'),
+//                     ),
+//                   ],
+//                 ),
+//                 style: ElevatedButton.styleFrom(
+//                   backgroundColor: Colors.white,
+//                 ),
+//                 onPressed: () {},
+//               ),
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.all(
+//                   Radius.circular(4.0),
+//                 ),
+//               ),
+//             ),
+//             const SizedBox(
+//               height: 10.0,
+//             ),
+//             ButtonTheme(
+//               height: 50.0,
+//               child: ElevatedButton(
+//                 child: Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                   children: <Widget>[
+//                     Image.asset('images/flogo.png'),
+//                     Text(
+//                       'Login with Facebook',
+//                       style: TextStyle(color: Colors.white, fontSize: 15.0),
+//                     ),
+//                     Opacity(
+//                       opacity: 0.0,
+//                       child: Image.asset('images/glogo.png'),
+//                     ),
+//                   ],
+//                 ),
+//                 style: ElevatedButton.styleFrom(
+//                   backgroundColor: Color(0xFF334D92),
+//                 ),
+//                 onPressed: () {},
+//               ),
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.all(
+//                   Radius.circular(4.0),
+//                 ),
+//               ),
+//             ),
+//             const SizedBox(
+//               height: 10.0,
+//             ),
+//             ButtonTheme(
+//               height: 50.0,
+//               child: ElevatedButton(
+//                 child: Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                   children: <Widget>[
+//                     Icon(
+//                       Icons.mail,
+//                       color: Colors.white,
+//                     ),
+//                     Text(
+//                       'Login with Email',
+//                       style: TextStyle(color: Colors.white, fontSize: 15.0),
+//                     ),
+//                     Opacity(
+//                       opacity: 0.0,
+//                       child: Icon(
+//                         Icons.mail,
+//                         color: Colors.white,
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//                 style: ElevatedButton.styleFrom(
+//                   backgroundColor: Colors.green,
+//                 ),
+//                 onPressed: () {},
+//               ),
+//               shape: const RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.all(
+//                   Radius.circular(4.0),
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
