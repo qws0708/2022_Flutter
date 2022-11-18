@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:chef15/screens/main_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main(){
+void main()async{
+  WidgetsFlutterBinding.ensureInitialized();
+  //flutter에서 firebase를 사용하기 위해 최초에 불러와야하는 초기화 메서드인 Firebase.initializeApp()메서드는 비동기 방식으로 작동함
+  //Firebase.initializeApp()은 flutter와 통신을 원하지만 플러터의 최상위 메서드인 runApp메서드가 호출 되전에는 플러터 엔진이 초기화되지 않아 접근이 불가함
+  //Firebase.initializeApp()을 사용하기 위해서 runApp이 작동하기전에 초기화해야하는데 이를 도와줌
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
