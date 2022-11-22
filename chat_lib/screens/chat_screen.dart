@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -47,19 +48,19 @@ class _ChatScreenState extends State<ChatScreen> {
             onPressed: () {
               //로그아웃 기능 구현
               _authentication.signOut();
-              Navigator.pop(context);
+              //Navigator.pop(context);
             },
           ),
         ],
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection('chats/vUPTIL5MLjd0X2WOPeQ1/message')
+            .collection('chats/EPQwJY2cYbblO7kTljyh /asw')
             .snapshots(),
         builder: (BuildContext context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           //빌드와 스트림에서 가장 최신의 스냅샷을 가져오기 위한 AsyncSnapshot이라는 클래스를 가져야 함
-          if(snapshot.connectionState == ConnectionState.waiting){    
+          if(snapshot.connectionState == ConnectionState.waiting){
             //firebase에 접근해서 데이터를 가지고 올 동안 null인 상황에 적용
             return const Center(
               child: CircularProgressIndicator(),

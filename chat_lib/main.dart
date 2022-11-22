@@ -1,6 +1,8 @@
+import 'package:chef15/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:chef15/screens/main_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main()async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +23,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.blue,
       ),
-      home: LoginSignupScreen(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        //Authentication state와 관련해서 authentication state가 바뀔 때 이를 구독하기 위한 3가지 메서드 중 하나
+        builder: (context, snapshot){
+          if(snapshot.hasData){
+            return const ChatScreen();
+          }
+          return const LoginSignupScreen();
+        },
+      ),
     );
   }
 }

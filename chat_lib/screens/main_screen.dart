@@ -1,9 +1,10 @@
-
 import 'package:chef15/config/palette.dart';
 import 'package:chef15/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginSignupScreen extends StatefulWidget {
   const LoginSignupScreen({Key? key}) : super(key: key);
@@ -40,7 +41,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
     return Scaffold(
       backgroundColor: Palette.backgroundColor,
       body: ModalProgressHUD(
-        inAsyncCall: showSpinner,  //false로 대기하다가 전송 버튼을 누르면 작동함
+        inAsyncCall: showSpinner, //false로 대기하다가 전송 버튼을 누르면 작동함
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus(); //화면의 빈 공간을 눌렀을 때 자판이 내려가도록 구성
@@ -76,8 +77,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                             ),
                             children: [
                               TextSpan(
-                                text:
-                                    isSignupScreen ? ' to Yommy chat!' : ' back',
+                                text: isSignupScreen
+                                    ? ' to Yommy chat!'
+                                    : ' back',
                                 style: const TextStyle(
                                   letterSpacing: 1.0,
                                   fontSize: 25,
@@ -481,7 +483,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                         borderRadius: BorderRadius.circular(50)),
                     child: GestureDetector(
                       onTap: () async {
-                        setState(() {   //돌고있는 spinner 구현
+                        setState(() {
+                          //돌고있는 spinner 구현
                           showSpinner = true;
                         });
                         if (isSignupScreen) {
@@ -497,6 +500,17 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                     email: userEmail,
                                     password: userPassword);
 
+                            await FirebaseFirestore.instance
+                                .collection('user')
+                                .doc(newUser.user!.uid)
+                                .set({
+                              'userName': userName,
+                              'email': userEmail,
+                            });
+                            //collection은 즉석에서 생성 가능 =>미리 생성하지 않아도 됨
+                            //doc(newUser.user!.uid): 특정 다큐먼트를 위한 식별자 역할 , set에서 원하는 데이터 저장
+                            //set은 Future를 리턴하는 Future void 타입
+
                             if (newUser.user != null) {
                               //firebase에 값이 잘 전달되었을 경우
                               Navigator.push(
@@ -511,14 +525,13 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                 showSpinner = false; // spinner가 멈추는 지점
                               });
                             }
-
                           } catch (e) {
                             //e = 콘솔창의 Exception내용
                             print(e);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content:
-                                    Text('Please check your email and password'),
+                                content: Text(
+                                    'Please check your email and password'),
                                 backgroundColor: Colors.blue,
                               ),
                             );
@@ -529,8 +542,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                           //로그인 화면 일때
                           _tryValidation();
                           try {
-                            final newUser =
-                            await _authentication.signInWithEmailAndPassword(
+                            final newUser = await _authentication
+                                .signInWithEmailAndPassword(
                               email: userEmail,
                               password: userPassword,
                             );
@@ -539,16 +552,16 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                 showSpinner = false; // spinner가 멈추는 지점
                               });
                               //firebase에 값이 잘 전달되었을 경우
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return ChatScreen();
-                                  },
-                                ),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) {
+                              //       return ChatScreen();
+                              //     },
+                              //   ),
+                              // );
                             }
-                          }catch(e){
+                          } catch (e) {
                             print(e);
                           }
                         }
